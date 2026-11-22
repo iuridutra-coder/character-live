@@ -252,5 +252,63 @@
 })();
 
 </script>
+
+<style>
+#painel-presentes {
+  position: fixed;
+  bottom: 15px;
+  left: 10px;
+  z-index: 999999;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  max-width: 95%;
+  font-family: Arial, sans-serif;
+}
+#painel-presentes button {
+  background: #171717;
+  color: white;
+  border: 1px solid #f5cf35;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 14px;
+}
+</style>
+
+<div id="painel-presentes">
+  <button data-nome="Rosa" data-moedas="1">🌹 Rosa</button>
+  <button data-nome="TikTok" data-moedas="1">🎵 TikTok</button>
+  <button data-nome="Coração" data-moedas="5">💗 Coração</button>
+  <button data-nome="Perfume" data-moedas="20">🧴 Perfume</button>
+  <button data-nome="Galaxy" data-moedas="1000">🌌 Galaxy</button>
+  <button id="combo-presente">🎁 Combo ×5</button>
+</div>
+
+<script>
+(function () {
+  const painel = document.getElementById('painel-presentes');
+
+  function enviar(nome, moedas, quantidade) {
+    window.dispatchEvent(new CustomEvent('character-live:gift', {
+      detail: {
+        giftName: nome,
+        coins: moedas,
+        repeatCount: quantidade,
+        source: 'simulação'
+      }
+    }));
+  }
+
+  painel.querySelectorAll('button[data-nome]').forEach(botao => {
+    botao.addEventListener('click', () => {
+      enviar(botao.dataset.nome, Number(botao.dataset.moedas), 1);
+    });
+  });
+
+  document.getElementById('combo-presente').addEventListener('click', () => {
+    enviar('Rosa', 1, 5);
+  });
+})();
+</script>
 </body>
 </html>
